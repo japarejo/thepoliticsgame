@@ -60,36 +60,43 @@ public class ThePoliticsGame {
 
 	private static Map<String, List<String>> generateAlternatives() {
 		Map<String, List<String>> result = new HashMap<String, List<String>>();
-		result.put("src/main/resources/AlbertRivera.jpg", Lists.newArrayList(
+		result.put("AlbertRivera.jpg", Lists.newArrayList(
 				"Albert Rivera", "albert rivera", "Rivera", "rivera"));
-		result.put("src/main/resources/MarianoRajoy.jpg", Lists.newArrayList(
+		result.put("MarianoRajoy.jpg", Lists.newArrayList(
 				"Mariano Rajoy", "mariano rajoy", "rajoy", "Rajoy"));
-		result.put("src/main/resources/PabloIglesias.jpg", Lists.newArrayList(
+		result.put("PabloIglesias.jpg", Lists.newArrayList(
 				"Pablo Iglesias", "pablo iglesias", "Iglesias", "iglesias"));
-		result.put("src/main/resources/PedroSanchez.jpg", Lists.newArrayList(
+		result.put("PedroSanchez.jpg", Lists.newArrayList(
 				"Pedro Sanchez", "pedro sanchez", "Pedro Sánchez",
 				"pedro sánchez", "sanchez", "sánchez", "Sánchez", "Sanchez"));
-		result.put("src/main/resources/AlbertoGarzon.jpg", Lists.newArrayList(
+		result.put("AlbertoGarzon.jpg", Lists.newArrayList(
 				"Alberto Garzón", "alberto garzón", "Alberto Garzon",
 				"alberto garzon", "garzon", "garzón", "Garzón", "Garzon"));
-		result.put("src/main/resources/FelipeGonzalez.jpg", Lists.newArrayList(
+		result.put("FelipeGonzalez.jpg", Lists.newArrayList(
 				"Felipe Gonzalez", "felipe gonzalez", "Felipe González",
 				"felipe gonzález", "gozalez", "Gonzalez"));
-		result.put("src/main/resources/JoseMariaAznar.jpg", Lists.newArrayList(
+		result.put("JoseMariaAznar.jpg", Lists.newArrayList(
 				"Jose Maria Aznar", "José María Aznar", "jose maria aznar",
 				"josé maría aznar", "aznar", "Aznar"));
-		result.put("src/main/resources/zapatero.jpg",
+		result.put("zapatero.jpg",
 				Lists.newArrayList("Zapatero", "zapatero"));
-		result.put("src/main/resources/Anguita.jpg", Lists.newArrayList(
+		result.put("Anguita.jpg", Lists.newArrayList(
 				"Julio Anguita", "julio anguita", "anguita", "Anguita"));
 
 		return result;
 	}
 
 	public static BufferedImage loadImage(String file) { //
+		String dir="src.main.resources.";
+		File f=new File(dir);
+		if(!f.exists())
+			dir="";
 		BufferedImage portraitImage = null;
+		
 		try {
-			portraitImage = ImageIO.read(new File(file));
+			//f=new File(dir+file);
+			//System.out.println("Loading image  from:"+f.getAbsolutePath());
+			portraitImage = ImageIO.read(ThePoliticsGame.class.getClassLoader().getResourceAsStream(dir+file));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
