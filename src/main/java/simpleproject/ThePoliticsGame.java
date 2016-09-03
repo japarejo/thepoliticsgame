@@ -35,7 +35,8 @@ public class ThePoliticsGame {
 			for (Integer size : sizes) {
 				showImage(image, size);
 				System.out
-						.println("Please guess the name of the Spanish politician in the image:");
+						.println("Please guess the name of the Spanish"
+								+ " politician in the image:");
 				name = scanner.nextLine();
 				if (alternatives.get(imageName).contains(name)) {
 					System.out.println(FigletFont
@@ -57,7 +58,11 @@ public class ThePoliticsGame {
 		}
 
 	}
+	/**
 
+	 * 
+	 * @return map between image path and valid politic names.
+	 */
 	private static Map<String, List<String>> generateAlternatives() {
 		Map<String, List<String>> result = new HashMap<String, List<String>>();
 		result.put("src/main/resources/AlbertRivera.jpg", Lists.newArrayList(

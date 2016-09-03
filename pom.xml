@@ -6,6 +6,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Nuestro primer proyecto</name>
 	<description>Este será el primero proyecto que crearemos en el curso</description>
+	<properties>
+		<type-of-element>politician</type-of-element>		
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -23,7 +26,24 @@
 			<artifactId>jfiglet</artifactId>
 			<version>0.0.3</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
 	</dependencies>
-	
+
+	<organization>
+		<name>Univerity of Sevilla</name>
+		<url>http://www.us.es</url>
+	</organization>
+	<profiles>
+		<profile>
+			<id>places</id>
+			<properties>
+				<type-of-element>place</type-of-element>
+			</properties>
+		</profile>
+	</profiles>
 </project>
