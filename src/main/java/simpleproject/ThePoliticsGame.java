@@ -40,7 +40,7 @@ public class ThePoliticsGame {
 				if (alternatives.get(imageName).contains(name)) {
 					System.out.println(FigletFont
 							.convertOneLine("You Win!  :-)"));
-					System.out.println(FigletFont.convertOneLine("It was  "
+					System.out.println(FigletFont.convertOneLine("He is  "
 							+ alternatives.get(imageName).get(0)));
 					break;
 				} else if (size != sizes.get(sizes.size() - 1)) {
@@ -49,7 +49,7 @@ public class ThePoliticsGame {
 				} else {
 					System.out.println(FigletFont
 							.convertOneLine("You loose! :'-("));
-					System.out.println(FigletFont.convertOneLine("It was  "
+					System.out.println(FigletFont.convertOneLine("He is  "
 							+ alternatives.get(imageName).get(0)));
 					break;
 				}
@@ -113,7 +113,7 @@ public class ThePoliticsGame {
 		// ImageIO.write(imageConverter.convertImage(portraitImage), "png",
 		// new File("ascii_art.png"));
 		// string converter, output to console
-		StringBuffer result=stringConverter.convertImage(img);
+		StringBuffer result = stringConverter.convertImage(img);
 		System.out.println(result);
 		return result.toString();
 	}
