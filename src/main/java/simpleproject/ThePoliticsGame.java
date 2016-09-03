@@ -97,7 +97,7 @@ public class ThePoliticsGame {
 		return portraitImage;
 	}
 
-	public static void showImage(BufferedImage img, int size) {
+	public static String showImage(BufferedImage img, int size) {
 
 		// initialize cache
 		AsciiImgCache cache = AsciiImgCache.create(new Font("Courier",
@@ -113,7 +113,8 @@ public class ThePoliticsGame {
 		// ImageIO.write(imageConverter.convertImage(portraitImage), "png",
 		// new File("ascii_art.png"));
 		// string converter, output to console
-		System.out.println(stringConverter.convertImage(img));
-
+		StringBuffer result=stringConverter.convertImage(img);
+		System.out.println(result);
+		return result.toString();
 	}
 }
