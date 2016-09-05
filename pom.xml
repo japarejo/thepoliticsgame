@@ -7,8 +7,47 @@
 	<name>Nuestro primer proyecto</name>
 	<description>Este será el primero proyecto que crearemos en el curso</description>
 	<properties>
-		<type-of-element>politician</type-of-element>		
+		<itemType>politician</itemType>		
 	</properties>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+         		<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<!-- get all project dependencies -->
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<!-- MainClass in mainfest make a executable jar -->
+					<archive>
+					  <manifest>
+						<mainClass>simpleproject.ThePoliticsGame</mainClass>
+					  </manifest>
+					</archive>
+
+				</configuration>
+				<executions>
+				  <execution>
+					<id>make-assembly</id>
+                                        <!-- bind to the packaging phase -->
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+				  </execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -34,15 +73,16 @@
 		</dependency>
 	</dependencies>
 
+	
 	<organization>
 		<name>Univerity of Sevilla</name>
 		<url>http://www.us.es</url>
 	</organization>
 	<profiles>
 		<profile>
-			<id>places</id>
+			<id>monument</id>
 			<properties>
-				<type-of-element>place</type-of-element>
+				<itemType>monument</itemType>
 			</properties>
 		</profile>
 	</profiles>

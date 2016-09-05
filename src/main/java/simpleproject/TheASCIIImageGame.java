@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -21,27 +23,28 @@ import io.korhner.asciimg.image.character_fit_strategy.StructuralSimilarityFitSt
 import io.korhner.asciimg.image.converter.AsciiToImageConverter;
 import io.korhner.asciimg.image.converter.AsciiToStringConverter;
 
-public class ThePoliticsGame {
+public class TheASCIIImageGame {
 	public static void main(String[] args) {
-		Map<String, List<String>> alternatives = generateAlternatives();
+		String itemType=loadAppItemType();
+		Map<String, List<String>> alternatives = generateAlternatives(itemType);
 		List<String> images = Lists.newArrayList(alternatives.keySet());
 		List<Integer> sizes = Lists.newArrayList(30, 20, 10, 6, 3, 1);
 		Random random = new Random();
 		String imageName = images.get(random.nextInt(images.size()));
-		BufferedImage image = loadImage(imageName);
+		BufferedImage image = loadImage(itemType+"/"+imageName);
 		if (image != null) {
 			Scanner scanner = new Scanner(System.in);
 			String name = null;
 			for (Integer size : sizes) {
 				showImage(image, size);
 				System.out
-						.println("Please guess the name of the Spanish"
-								+ " politician in the image:");
+						.println("Please guess the name of the "
+								+itemType+ " in the image:");
 				name = scanner.nextLine();
 				if (alternatives.get(imageName).contains(name)) {
 					System.out.println(FigletFont
 							.convertOneLine("You Win!  :-)"));
-					System.out.println(FigletFont.convertOneLine("He is  "
+					System.out.println(FigletFont.convertOneLine("It is  "
 							+ alternatives.get(imageName).get(0)));
 					break;
 				} else if (size != sizes.get(sizes.size() - 1)) {
@@ -50,7 +53,7 @@ public class ThePoliticsGame {
 				} else {
 					System.out.println(FigletFont
 							.convertOneLine("You loose! :'-("));
-					System.out.println(FigletFont.convertOneLine("He is  "
+					System.out.println(FigletFont.convertOneLine("It is  "
 							+ alternatives.get(imageName).get(0)));
 					break;
 				}
@@ -63,40 +66,54 @@ public class ThePoliticsGame {
 	 * 
 	 * @return map between image path and valid politic names.
 	 */
-	private static Map<String, List<String>> generateAlternatives() {
+	private static Map<String, List<String>> generateAlternatives(String itemType) {
 		Map<String, List<String>> result = new HashMap<String, List<String>>();
-		result.put("src/main/resources/AlbertRivera.jpg", Lists.newArrayList(
-				"Albert Rivera", "albert rivera", "Rivera", "rivera"));
-		result.put("src/main/resources/MarianoRajoy.jpg", Lists.newArrayList(
-				"Mariano Rajoy", "mariano rajoy", "rajoy", "Rajoy"));
-		result.put("src/main/resources/PabloIglesias.jpg", Lists.newArrayList(
-				"Pablo Iglesias", "pablo iglesias", "Iglesias", "iglesias"));
-		result.put("src/main/resources/PedroSanchez.jpg", Lists.newArrayList(
-				"Pedro Sanchez", "pedro sanchez", "Pedro Sánchez",
-				"pedro sánchez", "sanchez", "sánchez", "Sánchez", "Sanchez"));
-		result.put("src/main/resources/AlbertoGarzon.jpg", Lists.newArrayList(
-				"Alberto Garzón", "alberto garzón", "Alberto Garzon",
-				"alberto garzon", "garzon", "garzón", "Garzón", "Garzon"));
-		result.put("src/main/resources/FelipeGonzalez.jpg", Lists.newArrayList(
-				"Felipe Gonzalez", "felipe gonzalez", "Felipe González",
-				"felipe gonzález", "gozalez", "Gonzalez"));
-		result.put("src/main/resources/JoseMariaAznar.jpg", Lists.newArrayList(
-				"Jose Maria Aznar", "José María Aznar", "jose maria aznar",
-				"josé maría aznar", "aznar", "Aznar"));
-		result.put("src/main/resources/zapatero.jpg",
-				Lists.newArrayList("Zapatero", "zapatero"));
-		result.put("src/main/resources/Anguita.jpg", Lists.newArrayList(
-				"Julio Anguita", "julio anguita", "anguita", "Anguita"));
-
+		String dir="src.main.resources.";
+		File f=new File(dir);
+		if(!f.exists())
+			dir="";
+		Properties p=new Properties();
+		try {
+			p.load(TheASCIIImageGame.class.getClassLoader().getResourceAsStream(dir+itemType+".properties"));
+		} catch (IOException e) {			
+			e.printStackTrace();
+		}
+		List<String> values;
+		for(Entry<Object,Object> property:p.entrySet())
+		{
+			values=Lists.newArrayList(property.getValue().toString().split(","));
+			result.put(property.getKey().toString(),values);
+		}				
+		
 		return result;
+	}
+	
+	public static String loadAppItemType(){
+		String dir="src.main.resources.";
+		File f=new File(dir);
+		if(!f.exists())
+			dir="";
+		Properties p=new Properties();
+		try {
+			p.load(TheASCIIImageGame.class.getClassLoader().getResourceAsStream(dir+"app.properties"));
+		} catch (IOException e) {			
+			e.printStackTrace();
+		}
+		return p.getProperty("itemType");
 	}
 
 	public static BufferedImage loadImage(String file) { //
-		BufferedImage portraitImage = null;
+		String dir="src.main.resources.";
+		File f=new File(dir);
+		if(!f.exists())
+			dir="";
+		BufferedImage portraitImage = null;		
 		try {
-			portraitImage = ImageIO.read(new File(file));
+			//f=new File(dir+file);
+			//System.out.println("Loading image  from:"+dir+file);
+			portraitImage = ImageIO.read(TheASCIIImageGame.class.getClassLoader().getResourceAsStream(dir+file));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return portraitImage;
